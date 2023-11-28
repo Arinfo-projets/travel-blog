@@ -1,0 +1,13 @@
+# php bin/console hautelook:fixtures:load
+
+App\Entity\Category:
+    categories{1..10}:
+      label: <word()>
+      color: <hexcolor()>
+
+App\Entity\Post:
+  posts{1..5}:
+    category: "@categories*"
+    title: <sentence()>
+    content: <paragraph(3)>
+    createdAt: <date_create()>

@@ -35,15 +35,33 @@
                         <a class="nav-link" href="#">Tous les articles</a>
                     </li>
                 </ul>
+
                 <span class="navbar-text">
+                    {% if app.user %}
+                    <div class="dropdown">
+                        <button class="btn btn-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img width="30" height="30"
+                                src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png"
+                                class="rounded" alt="{{app.user.id}}">
+                        </button>
+                        <ul class="dropdown-menu ">
+                            {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                                <li><a class="dropdown-item text-dark" href="#">Admin</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item text-dark" href="/logout">Déconexion</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Se connecter</a>
+                            <a class="nav-link active" aria-current="page" href="/login">Se connecter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Créer un compte</a>
+                            <a class="nav-link active" aria-current="page" href="/register">Créer un compte</a>
                         </li>
                     </ul>
+                    {% endif %}
                 </span>
             </div>
         </div>

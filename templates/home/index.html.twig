@@ -3,7 +3,25 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<div class="wrapper">
-    <p>oiefhzuf</p>
+<div class="wrapper my-5">
+    <div class="container">
+        <div class="presentation">
+            <h2 class="mb-3">Quelques voyages</h2>
+            <div class="row align-items-center">
+                {% for post in posts %}
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card">
+                        <img height="200" src="https://minfolio.caliberthemes.com/minimal/wp-content/uploads/sites/2/2021/08/portfolio-details-2-min.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{ post.title }}</h5>
+                            <p class="card-text text-truncate">{{ post.content }}</p>
+                            <a href="#" class="btn btn-primary">Voir plus</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
