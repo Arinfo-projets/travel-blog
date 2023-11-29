@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="my-3">
+        <h1>Creer un nouveau post</h1>
+        {{ include('post/_form.html.twig', {'button_label': 'Ajouter ce post'}) }}
+    </div>
+</div>
+
+{% endblock %}

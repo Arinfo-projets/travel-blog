@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+
+<div class="wrapper my-3">
+    <div class="container">
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+        <div class="dashboard">
+            <h1 class="mb-3 h2">Dashboard</h1>
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                        aria-selected="true">Publications</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <a href="/post/new" class="btn btn-sm btn-success">Ajouter un nouveau post</a>
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Titre</th>
+                                    <th scope="col">Contenu</th>
+                                    <th scope="col">Date de création</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in posts %}
+                                <tr>
+                                    <th class="text-truncate" style="max-width: 200px;"> {{post.title}} </th>
+                                    <td class="text-truncate" style="max-width: 200px;"> {{post.content}} </td>
+                                    <td>{{ post.createdAt ? post.createdAt|date('Y-m-d') : '' }}</td>
+                                    <td class="d-flex">
+                                        <a href="/post/{{post.id}}/edit" class="btn btn-primary me-2">Modifier</a>
+                                        {{ include('post/_delete_form.html.twig') }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

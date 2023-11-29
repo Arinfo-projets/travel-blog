@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="my-3">
+            <h1>Modifier ce post</h1>
+            {{ include('post/_form.html.twig', {'button_label': 'Modifier ce post'}) }}
+        </div>
+    </div>
+
+    <!-- {{ include('post/_delete_form.html.twig') }} -->
+{% endblock %}

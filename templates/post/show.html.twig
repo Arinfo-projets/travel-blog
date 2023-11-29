@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="swiper mySwiper swiper-container">
+        <!-- Additional required wrapper -->
+        {% if post.images | length %}
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            {% for image in post.images %}
+            <div class="swiper-slide">
+                <img class="rounded w-100" style="object-fit: cover;"
+                    src="{{ asset('assets/images/post/') ~ image.filePath }}" alt="image">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- If we need scrollbar -->
+        <div class="swiper-scrollbar"></div>
+    </div>
+    <div class="container">
+        <div class="my-3">
+            <span class="badge" style="background-color: {{post.category.color}} ">{{post.category.label}}</span>
+            <h1>{{post.title}}</h1>
+            <p style="white-space: pre-line ;"> {{post.content}} </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
+
+{% endblock %}

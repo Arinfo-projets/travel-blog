@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
-use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\PostRepository;
 
-class HomeController extends AbstractController
+class AdminController extends AbstractController
 {
-
     public function __construct(private PostRepository $postRepository){}
 
-    #[Route('/', name: 'app_home')]
+    #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
 
         $posts = $this->postRepository->findBy(array(), array('createdAt'=> 'DESC'));
 
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
             'posts' => $posts
         ]);
     }
