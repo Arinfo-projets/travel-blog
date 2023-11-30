@@ -10,10 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\PictureService;
 
 #[Route('/image')]
 class ImageController extends AbstractController
 {
+    public function __construct(private PictureService $pictureService){}
+
     #[Route('/', name: 'app_image_index', methods: ['GET'])]
     public function index(ImageRepository $imageRepository): Response
     {
@@ -73,8 +76,13 @@ class ImageController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $entityManager->remove($image);
+
+            $this->addFlash('success','Image supprimé');
+            $this->pictureService->delete($image->getFilePath(), 'post');
+
             $entityManager->flush();
         }
+
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }

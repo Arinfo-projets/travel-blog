@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Entity\Category;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
@@ -22,16 +23,23 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content')
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'rows' => 10
+                ]
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class, // Assurez-vous que le chemin vers la classe Category est correct
                 'choice_label' => 'label', // Remplacez 'name' par le champ de la classe Category que vous souhaitez afficher
             ])
             ->add('images', FileType::class, [
+                'attr' => [
+                    'accept' => 'img/*'
+                ],
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
-                'required' => true,
+                'required' => false,
             ]);
     }
 

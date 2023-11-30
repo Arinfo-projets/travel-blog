@@ -17,9 +17,6 @@ class Image
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Post $post = null;
 
@@ -36,18 +33,6 @@ class Image
     public function setFilePath(?string $filePath): static
     {
         $this->filePath = $filePath;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

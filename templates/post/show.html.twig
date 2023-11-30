@@ -28,8 +28,9 @@
         <div class="swiper-scrollbar"></div>
     </div>
     <div class="container">
+        <a href="/post/{{post.id}}/edit" class="btn btn-primary my-3">Modifier</a>
         <div class="my-3">
-            <span class="badge" style="background-color: {{post.category.color}} ">{{post.category.label}}</span>
+            <span class="badge d-block" style="width: fit-content; background-color: {{post.category.color}} ">{{post.category.label}}</span>
             <h1>{{post.title}}</h1>
             <p style="white-space: pre-line ;"> {{post.content}} </p>
         </div>

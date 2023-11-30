@@ -29,7 +29,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Titre</th>
-                                    <th scope="col">Contenu</th>
+                                    <th scope="col">Type</th>
                                     <th scope="col">Date de création</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -37,10 +37,10 @@
                             <tbody>
                                 {% for post in posts %}
                                 <tr>
-                                    <th class="text-truncate" style="max-width: 200px;"> {{post.title}} </th>
-                                    <td class="text-truncate" style="max-width: 200px;"> {{post.content}} </td>
+                                    <th class="text-truncate"> {{post.title}} </th>
+                                    <td class="text-white fw-bold" style="background-color: {{post.category.color}}; "> {{post.category.label}} </td>
                                     <td>{{ post.createdAt ? post.createdAt|date('Y-m-d') : '' }}</td>
-                                    <td class="d-flex">
+                                    <td class="d-inline-flex">
                                         <a href="/post/{{post.id}}/edit" class="btn btn-primary me-2">Modifier</a>
                                         {{ include('post/_delete_form.html.twig') }}
                                     </td>

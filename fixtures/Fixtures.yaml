@@ -1,13 +1,25 @@
 # php bin/console hautelook:fixtures:load
 
 App\Entity\Category:
-    categories{1..10}:
-      label: <word()>
-      color: <hexcolor()>
+    categories1:
+      label: 'BAR / RESTAURANT'
+      color: '#01d06b'
+    categories2:
+      label: 'NATURE'
+      color: '#eebc14'
+    categories3:
+      label: 'BAR / RESTAURANT'
+      color: '#01d06b'
+    categories4:
+      label: 'TOURISTIQUE'
+      color: '#de5b2'
+    categories5:
+      label: 'CULTUREL'
+      color: '#c2e7b9'
 
-App\Entity\Post:
-  posts{1..5}:
-    category: "@categories*"
-    title: <sentence()>
-    content: <paragraph(3)>
-    createdAt: <date_create()>
+# App\Entity\Post:
+#   posts{1..5}:
+#     category: "@categories*"
+#     title: <sentence()>
+#     content: <paragraph(3)>
+#     createdAt: <date_create()>
