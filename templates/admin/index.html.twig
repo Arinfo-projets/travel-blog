@@ -6,11 +6,6 @@
 
 <div class="wrapper my-3">
     <div class="container">
-        {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-        {% endfor %}
         <div class="dashboard">
             <h1 class="mb-3 h2">Dashboard</h1>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -24,7 +19,6 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <a href="/post/new" class="btn btn-sm btn-success">Ajouter un nouveau post</a>
                     <div class="table-responsive">
-
                         <table class="table">
                             <thead>
                                 <tr>

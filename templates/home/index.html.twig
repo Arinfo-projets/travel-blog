@@ -5,16 +5,6 @@
 {% block body %}
 <div class="wrapper my-5">
     <div class="container">
-        {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% for message in app.flashes('warning') %}
-        <div class="alert alert-warning">
-            {{ message }}
-        </div>
-        {% endfor %}
         <div class="presentation">
             <h2 class="mb-3">Quelques voyages</h2>
             {% if posts | length == 0 %}
