@@ -1,14 +1,79 @@
-<div class="mb-5 d-flex flex-wrap">
-    {% for image in post.images %}
-    <figure style="width: 100px; height: 100px;" class="me-3 position-relative">
-        <img width="100%" height="100%" style="object-fit: cover;" class="rounded"
-            src="{{ asset('assets/images/post/') ~ image.filePath }}" alt="image">
-        <span class="position-absolute start-0 bottom-0">
-            {{ include('image/_delete_form.html.twig') }}
-        </span>
-    </figure>
-    {% endfor %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+    let pathnameArray = new URL(window.location.href).pathname.split('/');
+    let paramsID = pathnameArray[2]
+
+
+    const getImages = async () => {
+        try {
+            const response = await axios.get(`${window.location.origin}/image/post/${paramsID}`);
+            return JSON.parse(response.data)
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    const handleDeleteImage = async (imageId) => {
+        try {
+            const confirmResponse = confirm("Confirmez la suppression de l'image ?")
+            if (!confirmResponse) return;
+
+            await axios.delete(`${window.location.origin}/image/${imageId}`)
+            await loadeImages()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const loadeImages = async () => {
+        try {
+            const images = await getImages();
+            if (images) {
+                const imageSection = document.querySelector('.images-section')
+
+                const htmlLayout = images.map((image) => `
+                <figure style="width: 100px; height: 100px;" class="me-3 position-relative">
+                    <img width="100%" height="100%" style="object-fit: cover;" class="rounded"
+                    src="/assets/images/post/${image.filePath}" alt="image">
+                    <button onClick="handleDeleteImage(${image.id})" class="btn btn-danger position-absolute start-0 bottom-0" style="border-radius: 90px">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-trash-2">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" />
+            <line x1="14" y1="11" x2="14" y2="17" />
+        </svg>
+                    </button>
+                </figure>`
+                ).join('')
+
+                imageSection.innerHTML = `<div class="d-flex flex-wrap">${htmlLayout}</div>`;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    //Charge les images lors du chargement de la page
+    (async () => {
+        try {
+            await loadeImages()
+        } catch (error) {
+            console.log(error)
+        }
+    })();
+
+</script>
+
+<div class="mb-5">
+    <div class="images-section"></div>
 </div>
+
 {{ form_start(form) }}
 {{ form_widget(form) }}
 

@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Image;
 use App\Service\PictureService;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\Entity\PostDto;
 
 #[Route('/post')]
 class PostController extends AbstractController

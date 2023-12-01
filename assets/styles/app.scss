@@ -1,0 +1,26 @@
+@import "bootstrap/scss/bootstrap";
+
+.slide {
+    .carousel-inner {
+        height: 500px;
+
+        *{
+            height: 100%;
+        }
+
+        @media screen and (max-width: 750px) {
+            height: 300px;
+        }
+
+        .carousel-item {
+
+            > img{
+                object-fit: cover;
+                object-position: 50% 50%;
+                width: 100%;
+            }
+        }
+    }
+
+
+}

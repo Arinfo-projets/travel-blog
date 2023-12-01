@@ -41,6 +41,7 @@
                                     <td class="text-white fw-bold" style="background-color: {{post.category.color}}; "> {{post.category.label}} </td>
                                     <td>{{ post.createdAt ? post.createdAt|date('Y-m-d') : '' }}</td>
                                     <td class="d-inline-flex">
+                                        <a href="/post/{{post.id}}" class="btn btn-primary me-2">Voir</a>
                                         <a href="/post/{{post.id}}/edit" class="btn btn-primary me-2">Modifier</a>
                                         {{ include('post/_delete_form.html.twig') }}
                                     </td>

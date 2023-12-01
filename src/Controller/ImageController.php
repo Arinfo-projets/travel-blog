@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Image;
+use App\Entity\Post;
 use App\Form\Image1Type;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,11 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\PictureService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\ImageDto;
 
 #[Route('/image')]
 class ImageController extends AbstractController
 {
-    public function __construct(private PictureService $pictureService){}
+    public function __construct(private PictureService $pictureService, private ImageRepository $imageRepository)
+    {
+    }
 
     #[Route('/', name: 'app_image_index', methods: ['GET'])]
     public function index(ImageRepository $imageRepository): Response
@@ -25,63 +30,32 @@ class ImageController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_image_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/post/{post}', name: '', methods: ['GET'])]
+    public function getImageByPostId(Request $request): JsonResponse
     {
-        $image = new Image();
-        $form = $this->createForm(Image1Type::class, $image);
-        $form->handleRequest($request);
+        $postId = $request->get('post');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($image);
-            $entityManager->flush();
+        $images = $this->imageRepository->findBy(['post' => $postId]);
 
-            return $this->redirectToRoute('app_image_index', [], Response::HTTP_SEE_OTHER);
+        $imageDtos = [];
+
+        foreach ($images as $image) {
+            $imageDtos[] = new ImageDto($image->getId(), $image->getFilePath());
         }
 
-        return $this->render('image/new.html.twig', [
-            'image' => $image,
-            'form' => $form,
-        ]);
+        return $this->json($this->json($imageDtos)->getContent(), 200, [], ['groups' => 'post']);
     }
 
-    #[Route('/{id}', name: 'app_image_show', methods: ['GET'])]
-    public function show(Image $image): Response
-    {
-        return $this->render('image/show.html.twig', [
-            'image' => $image,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_image_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Image $image, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(Image1Type::class, $image);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_image_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('image/edit.html.twig', [
-            'image' => $image,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_image_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_image_delete', methods: ['delete'])]
     public function delete(Request $request, Image $image, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
+
             $entityManager->remove($image);
 
-            $this->addFlash('success','Image supprimé');
+            $this->addFlash('success', 'Image supprimé');
             $this->pictureService->delete($image->getFilePath(), 'post');
 
             $entityManager->flush();
-        }
 
 
         return new Response(null, Response::HTTP_NO_CONTENT);

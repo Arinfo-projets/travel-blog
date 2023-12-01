@@ -4,49 +4,36 @@
 
 {% block body %}
 <div class="wrapper">
-    <div class="swiper mySwiper swiper-container">
-        <!-- Additional required wrapper -->
-        {% if post.images | length %}
-        <div class="swiper-wrapper">
-            <!-- Slides -->
+    {% if post.images | length %}
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
             {% for image in post.images %}
-            <div class="swiper-slide">
-                <img class="rounded w-100" style="object-fit: cover;"
-                    src="{{ asset('assets/images/post/') ~ image.filePath }}" alt="image">
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <img src="{{ asset('assets/images/post/') ~ image.filePath }}" alt="image">
             </div>
             {% endfor %}
         </div>
-        {% endif %}
-        <!-- If we need pagination -->
-        <div class="swiper-pagination"></div>
-
-        <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-
-        <!-- If we need scrollbar -->
-        <div class="swiper-scrollbar"></div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+    {% endif %}
     <div class="container">
         {% if app.user is defined and app.user.roles[0] is defined and app.user.roles[0] == 'ROLE_ADMIN' %}
         <a href="/post/{{post.id}}/edit" class="btn btn-primary my-3">Modifier</a>
         {% endif %}
         <div class="my-3">
-            <span class="badge d-block" style="width: fit-content; background-color: {{post.category.color}} ">{{post.category.label}}</span>
+            <span class="badge d-block"
+                style="width: fit-content; background-color: {{post.category.color}} ">{{post.category.label}}</span>
             <h1>{{post.title}}</h1>
             <p style="white-space: pre-line;"> {{post.content}} </p>
         </div>
     </div>
 </div>
-
-<script>
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 1,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-</script>
 
 {% endblock %}
