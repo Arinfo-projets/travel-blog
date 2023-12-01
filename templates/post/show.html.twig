@@ -28,11 +28,13 @@
         <div class="swiper-scrollbar"></div>
     </div>
     <div class="container">
+        {% if app.user is defined and app.user.roles[0] is defined and app.user.roles[0] == 'ROLE_ADMIN' %}
         <a href="/post/{{post.id}}/edit" class="btn btn-primary my-3">Modifier</a>
+        {% endif %}
         <div class="my-3">
             <span class="badge d-block" style="width: fit-content; background-color: {{post.category.color}} ">{{post.category.label}}</span>
             <h1>{{post.title}}</h1>
-            <p style="white-space: pre-line ;"> {{post.content}} </p>
+            <p style="white-space: pre-line;"> {{post.content}} </p>
         </div>
     </div>
 </div>
